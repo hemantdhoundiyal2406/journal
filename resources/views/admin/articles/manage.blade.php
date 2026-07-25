@@ -143,7 +143,7 @@
                                         <td>{{ $file->original_name }}</td>
                                         <td class="small">{{ round($file->file_size / 1024, 2) }} KB</td>
                                         <td>
-                                            <a href="{{ route('article.download', $article->id) }}" class="btn btn-sm btn-outline-primary me-1">
+                                            <a href="{{ route('admin.articles.download-file', ['id' => $article->id, 'fileId' => $file->id]) }}" class="btn btn-sm btn-outline-primary me-1">
                                                 <i class="bi bi-download"></i> Download
                                             </a>
                                             <form action="{{ route('admin.articles.delete-file', ['id' => $article->id, 'fileId' => $file->id]) }}" method="POST" class="d-inline">

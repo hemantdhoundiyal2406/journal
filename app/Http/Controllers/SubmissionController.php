@@ -45,6 +45,9 @@ class SubmissionController extends Controller
             'supplementary_files.*' => 'nullable|file|mimes:pdf,doc,docx,zip,jpg,png|max:20480',
             'cover_letter' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
             'author_notes' => 'nullable|string|max:2000',
+            'originality_confirmed' => 'accepted',
+            'authors_approved' => 'accepted',
+            'references_confirmed' => 'accepted',
         ]);
 
         DB::beginTransaction();
@@ -60,7 +63,7 @@ class SubmissionController extends Controller
                 'abstract' => $validated['abstract'],
                 'keywords' => $validated['keywords'],
                 'status' => 'Submitted',
-                'admin_notes' => $validated['author_notes'] ? "Submission Note from Author: " . $validated['author_notes'] : null,
+                'admin_notes' => !empty($validated['author_notes']) ? "Submission Note from Author: " . $validated['author_notes'] : null,
             ]);
 
             // Save Authors

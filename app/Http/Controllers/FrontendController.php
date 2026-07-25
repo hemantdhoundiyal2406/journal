@@ -10,6 +10,7 @@ use App\Models\Issue;
 use App\Models\JournalSetting;
 use App\Models\Volume;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FrontendController extends Controller
 {
@@ -98,12 +99,12 @@ class FrontendController extends Controller
         $article = Article::findOrFail($id);
         $file = $article->manuscriptFile;
 
-        if (!$file || !file_exists(storage_path('app/' . $file->file_path))) {
+        if (!$file || !Storage::disk('local')->exists($file->file_path)) {
             return back()->with('error', 'Manuscript PDF file not found on server.');
         }
 
         $article->increment('download_count');
-        return response()->download(storage_path('app/' . $file->file_path), $file->original_name);
+        return Storage::disk('local')->download($file->file_path, $file->original_name);
     }
 
     public function currentIssue()

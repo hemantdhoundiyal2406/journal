@@ -153,15 +153,15 @@
                     <h5 class="serif-font fw-bold mb-3 border-bottom pb-2">Submission Checklist</h5>
                     
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="chk1" required>
+                        <input class="form-check-input" type="checkbox" id="chk1" name="originality_confirmed" value="1" required>
                         <label class="form-check-label small" for="chk1">The manuscript is original and not under consideration elsewhere.</label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="chk2" required>
+                        <input class="form-check-input" type="checkbox" id="chk2" name="authors_approved" value="1" required>
                         <label class="form-check-label small" for="chk2">All co-authors have approved the paper submission.</label>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="chk3" required>
+                        <input class="form-check-input" type="checkbox" id="chk3" name="references_confirmed" value="1" required>
                         <label class="form-check-label small" for="chk3">References follow standard APA/IEEE citation rules.</label>
                     </div>
 

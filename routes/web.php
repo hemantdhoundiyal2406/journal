@@ -57,6 +57,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::post('/articles/{id}/publication', [AdminArticleController::class, 'updatePublication'])->name('articles.update-publication');
     Route::post('/articles/{id}/authors', [AdminArticleController::class, 'updateAuthors'])->name('articles.update-authors');
     Route::post('/articles/{id}/file', [AdminArticleController::class, 'uploadFile'])->name('articles.upload-file');
+    Route::get('/articles/{id}/file/{fileId}/download', [AdminArticleController::class, 'downloadFile'])->name('articles.download-file');
     Route::delete('/articles/{id}/file/{fileId}', [AdminArticleController::class, 'deleteFile'])->name('articles.delete-file');
     Route::get('/articles/{id}/letter/{type}', [AdminArticleController::class, 'generateLetter'])->name('articles.letter');
     Route::get('/articles/{id}/certificate', [AdminArticleController::class, 'generateCertificate'])->name('articles.certificate');

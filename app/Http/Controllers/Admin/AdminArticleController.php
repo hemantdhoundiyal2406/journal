@@ -118,13 +118,16 @@ class AdminArticleController extends Controller
         ]);
 
         $article = Article::findOrFail($id);
+
         $article->update([
-            'volume_id' => $request->volume_id,
-            'issue_id' => $request->issue_id,
-            'start_page' => $request->start_page,
-            'end_page' => $request->end_page,
-            'doi' => $request->doi,
-            'published_at' => $request->published_at ? \Carbon\Carbon::parse($request->published_at) : $article->published_at,
+            'volume_id' => $request->has('volume_id') ? $request->input('volume_id') : $article->volume_id,
+            'issue_id' => $request->has('issue_id') ? $request->input('issue_id') : $article->issue_id,
+            'start_page' => $request->has('start_page') ? $request->input('start_page') : $article->start_page,
+            'end_page' => $request->has('end_page') ? $request->input('end_page') : $article->end_page,
+            'doi' => $request->has('doi') ? $request->input('doi') : $article->doi,
+            'published_at' => $request->has('published_at') && $request->filled('published_at')
+                ? \Carbon\Carbon::parse($request->input('published_at'))
+                : $article->published_at,
         ]);
 
         return back()->with('success', 'Publication details updated successfully.');
@@ -191,11 +194,22 @@ class AdminArticleController extends Controller
         return back()->with('success', 'File uploaded successfully.');
     }
 
+    public function downloadFile($id, $fileId)
+    {
+        $file = ArticleFile::where('article_id', $id)->where('id', $fileId)->firstOrFail();
+
+        if (!Storage::disk('local')->exists($file->file_path)) {
+            return back()->with('error', 'Requested article file not found on server.');
+        }
+
+        return Storage::disk('local')->download($file->file_path, $file->original_name);
+    }
+
     public function deleteFile($id, $fileId)
     {
         $file = ArticleFile::where('article_id', $id)->where('id', $fileId)->firstOrFail();
-        if (file_exists(storage_path('app/' . $file->file_path))) {
-            @unlink(storage_path('app/' . $file->file_path));
+        if (Storage::disk('local')->exists($file->file_path)) {
+            Storage::disk('local')->delete($file->file_path);
         }
         $file->delete();
 

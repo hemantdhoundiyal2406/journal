@@ -27,7 +27,7 @@
     <!-- Schema.org JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
+      "{{ '@context' }}": "https://schema.org",
       "@type": "ScholarlyArticle",
       "headline": "{{ addslashes($article->title) }}",
       "abstract": "{{ addslashes(strip_tags($article->abstract)) }}",
@@ -206,14 +206,14 @@
                         {{ $article->formatted_authors }}. "{{ $article->title }}." <em>{{ \App\Models\JournalSetting::getByKey('journal_name') }}</em>, vol. {{ $article->volume?->volume_number ?? '12' }}, no. {{ $article->issue?->issue_number ?? '1' }}, {{ $article->published_at?->format('Y') ?? date('Y') }}, pp. {{ $article->start_page ?? '1' }}-{{ $article->end_page ?? '10' }}.
                     </div>
                     <div class="tab-pane fade p-3 bg-light rounded border font-monospace small" id="bibtexTab">
-                        @article{ijaser_{{ $article->id }},<br>
-                        &nbsp;&nbsp;title={ {{ $article->title }} },<br>
-                        &nbsp;&nbsp;author={ {{ $article->formatted_authors }} },<br>
-                        &nbsp;&nbsp;journal={ {{ \App\Models\JournalSetting::getByKey('journal_name') }} },<br>
-                        &nbsp;&nbsp;volume={ {{ $article->volume?->volume_number ?? '12' }} },<br>
-                        &nbsp;&nbsp;number={ {{ $article->issue?->issue_number ?? '1' }} },<br>
-                        &nbsp;&nbsp;pages={ {{ $article->start_page ?? '1' }}-{{ $article->end_page ?? '10' }} },<br>
-                        &nbsp;&nbsp;year={ {{ $article->published_at?->format('Y') ?? date('Y') }} }<br>
+                        {{ '@article' }}{ijaser_{{ $article->id }},<br>
+                        &nbsp;&nbsp;title={{{ '{' }}}{{ $article->title }}{{ '}' }}},<br>
+                        &nbsp;&nbsp;author={{{ '{' }}}{{ $article->formatted_authors }}{{ '}' }}},<br>
+                        &nbsp;&nbsp;journal={{{ '{' }}}{{ \App\Models\JournalSetting::getByKey('journal_name') }}{{ '}' }}},<br>
+                        &nbsp;&nbsp;volume={{{ '{' }}}{{ $article->volume?->volume_number ?? '12' }}{{ '}' }}},<br>
+                        &nbsp;&nbsp;number={{{ '{' }}}{{ $article->issue?->issue_number ?? '1' }}{{ '}' }}},<br>
+                        &nbsp;&nbsp;pages={{{ '{' }}}{{ $article->start_page ?? '1' }}-{{ $article->end_page ?? '10' }}{{ '}' }}},<br>
+                        &nbsp;&nbsp;year={{{ '{' }}}{{ $article->published_at?->format('Y') ?? date('Y') }}{{ '}' }}}<br>
                         }
                     </div>
                 </div>
